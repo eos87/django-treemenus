@@ -18,9 +18,7 @@ def move_item(menu_item, vector):
     menu_item.rank = new_rank
     menu_item.save()
     swapping_sibling.save()
-
-
-
+    
 
 def move_item_or_clean_ranks(menu_item, vector):
     ''' Helper function to move and item up or down in the database.
@@ -35,8 +33,6 @@ def move_item_or_clean_ranks(menu_item, vector):
             fresh_menu_item = MenuItem.objects.get(pk=menu_item.pk)
             move_item(fresh_menu_item, vector)
 
-
-
 def get_parent_choices(menu, menu_item=None):
     """
     Returns flat list of tuples (possible_parent.pk, possible_parent.caption_with_spacer).
@@ -46,10 +42,11 @@ def get_parent_choices(menu, menu_item=None):
         if menu_item == excepted_item:
             return []
         else:
-            choices = [(menu_item.pk, mark_safe(menu_item.caption_with_spacer()))]
+            choices = [(menu_item.pk, mark_safe(menu_item.caption_with_spacer()))]                        
             if menu_item.has_children():
                 for child in menu_item.children():
-                    choices += get_flat_tuples(child, excepted_item)
+                    if child.level < menu.levels:
+                        choices += get_flat_tuples(child, excepted_item)
             return choices
     
     return get_flat_tuples(menu.root_item, menu_item)

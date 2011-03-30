@@ -4,11 +4,6 @@ from django.db import models
 from django.utils.translation import ugettext_lazy
 from django.utils.translation import ugettext as _
 
-
-
-
-
-
 class MenuItem(models.Model):
     parent = models.ForeignKey('self', verbose_name=ugettext_lazy('parent'), null=True, blank=True)
     caption = models.CharField(ugettext_lazy('caption'), max_length=50)
@@ -108,6 +103,9 @@ class MenuItem(models.Model):
 class Menu(models.Model):
     name = models.CharField(ugettext_lazy('name'), max_length=50)
     root_item = models.ForeignKey(MenuItem, related_name='is_root_item_of', verbose_name=ugettext_lazy('root item'), null=True, blank=True, editable=False)
+    #campo personalizado agregado por Helmy
+    levels = models.IntegerField()
+
     def save(self, force_insert=False, **kwargs):
         if not self.root_item:
             root_item = MenuItem()

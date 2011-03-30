@@ -13,11 +13,6 @@ from django.core.exceptions import PermissionDenied
 from treemenus.models import Menu, MenuItem
 from treemenus.utils import get_parent_choices, MenuItemChoiceField, move_item_or_clean_ranks
 
-
-
-
-
-
 class MenuItemAdmin(admin.ModelAdmin):
     ''' This class is used as a proxy by MenuAdmin to manipulate menu items. It should never be registered. '''
     def __init__(self, model, admin_site, menu):
